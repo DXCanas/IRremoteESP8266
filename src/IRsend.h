@@ -924,6 +924,12 @@ class IRsend {
                  const uint16_t nbytes = kEuromStateLength,
                  const uint16_t repeat = kNoRepeat);
 #endif  // SEND_EUROM
+#if SEND_EUFY
+  void sendEufy(const uint64_t data, const uint16_t nbits = kEufyBits,
+                const uint16_t repeat = kEufyDefaultRepeat);
+  uint64_t encodeEufy(const uint8_t command, const uint8_t hour = 0,
+                      const uint8_t minute = 0);
+#endif  // SEND_EUFY
 
  protected:
 #ifdef UNIT_TEST

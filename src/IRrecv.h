@@ -898,6 +898,12 @@ class IRrecv {
                    const uint16_t nbits = kEuromBits,
                    const bool strict = true);
 #endif  // DECODE_EUROM
+#if DECODE_EUFY
+  bool decodeEufy(decode_results *results,
+                  uint16_t offset = kStartOffset,
+                  const uint16_t nbits = kEufyBits,
+                  const bool strict = true);
+#endif  // DECODE_EUFY
 };
 
 #endif  // IRRECV_H_

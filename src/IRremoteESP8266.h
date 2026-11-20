@@ -976,6 +976,13 @@ typedef volatile const uint16_t atomic_const_uint16_t;
 #define SEND_EUROM           _IR_ENABLE_DEFAULT_
 #endif  // SEND_EUROM
 
+#ifndef DECODE_EUFY
+#define DECODE_EUFY          _IR_ENABLE_DEFAULT_
+#endif  // DECODE_EUFY
+#ifndef SEND_EUFY
+#define SEND_EUFY            _IR_ENABLE_DEFAULT_
+#endif  // SEND_EUFY
+
 #if (DECODE_ARGO || DECODE_DAIKIN || DECODE_FUJITSU_AC || DECODE_GREE || \
      DECODE_KELVINATOR || DECODE_MITSUBISHI_AC || DECODE_TOSHIBA_AC || \
      DECODE_TROTEC || DECODE_HAIER_AC || DECODE_HITACHI_AC || \
@@ -1164,8 +1171,9 @@ enum decode_type_t {
   YORK,
   BLUESTARHEAVY,
   EUROM,
+  EUFY,
   // Add new entries before this one, and update it to point to the last entry.
-  kLastDecodeType = EUROM,
+  kLastDecodeType = EUFY,
 };
 
 // Message lengths & required repeat values
@@ -1467,6 +1475,8 @@ const uint16_t kYorkBits = 136;
 const uint16_t kYorkStateLength = 17;
 const uint16_t kEuromStateLength = 12;
 const uint16_t kEuromBits = kEuromStateLength * 8;
+const uint16_t kEufyBits = 40;
+const uint16_t kEufyDefaultRepeat = kNoRepeat;
 
 // Legacy defines. (Deprecated)
 #define AIWA_RC_T501_BITS             kAiwaRcT501Bits

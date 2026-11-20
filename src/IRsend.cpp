@@ -627,6 +627,8 @@ uint16_t IRsend::defaultBits(const decode_type_t protocol) {
       return 8;
     case WOWWEE:
       return 11;
+    case EUFY:
+      return kEufyBits;
     case RC5:
     case SYMPHONY:
       return 12;
@@ -1155,6 +1157,11 @@ bool IRsend::send(const decode_type_t type, const uint64_t data,
       sendWowwee(data, nbits, min_repeat);
       break;
 #endif  // SEND_WOWWEE
+#if SEND_EUFY
+    case EUFY:
+      sendEufy(data, nbits, min_repeat);
+      break;
+#endif  // SEND_EUFY
 #if SEND_XMP
     case XMP:
       sendXmp(data, nbits, min_repeat);

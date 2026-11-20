@@ -114,12 +114,16 @@ bool IRrecv::decodeEufy(decode_results *results, uint16_t offset,
   uint64_t data = 0;
 
   // Match Header + Data + Footer
+  // No mark excess: a weak signal (distance, angle) comes in with shorter
+  // marks and longer spaces (e.g. 445 & 565 for 520 & 490). With the default
+  // excess, those zero spaces fall outside the tolerance.
   if (!matchGeneric(results->rawbuf + offset, &data,
                     results->rawlen - offset, nbits,
                     kEufyHdrMark, kEufyHdrSpace,
                     kEufyBitMark, kEufyOneSpace,
                     kEufyBitMark, kEufyZeroSpace,
-                    kEufyBitMark, kEufyGap, true)) return false;
+                    kEufyBitMark, kEufyGap, true,
+                    _tolerance, 0)) return false;
 
   // Compliance
   if (strict && (data >> (nbits - 8)) != kEufyHeader) return false;

@@ -189,6 +189,30 @@ TEST(TestDecodeEufy, RealMaxWithStaleChecksum) {
   EXPECT_EQ(0x681E00007A, irsend.capture.value);
 }
 
+// A press from further away / off-axis: the receiver shortens the marks and
+// lengthens the spaces (e.g. 445 & 565 instead of 520 & 490). It must decode.
+TEST(TestDecodeEufy, RealWeakSignal) {
+  IRsendTest irsend(kGpioUnused);
+  IRrecv irrecv(kGpioUnused);
+  irsend.begin();
+
+  // MAX after Spot.
+  const uint16_t rawWeakMax[83] = {
+      2970, 3065, 445, 565, 440, 1555, 490, 1530, 470, 540, 490, 1525,
+      470, 540, 470, 540, 465, 550, 465, 540, 470, 520, 490, 540, 470,
+      1530, 470, 1555, 465, 1550, 470, 1550, 465, 545, 465, 540, 470, 540,
+      470, 565, 445, 540, 470, 540, 490, 515, 465, 520, 490, 540, 440,
+      545, 470, 540, 465, 540, 470, 565, 445, 565, 445, 565, 445, 565,
+      470, 515, 470, 565, 470, 1550, 440, 1575, 445, 1550, 470, 1550, 465,
+      520, 490, 1550, 440, 570, 440};
+  irsend.reset();
+  irsend.sendRaw(rawWeakMax, 83, 38);
+  irsend.makeDecodeResult();
+  ASSERT_TRUE(irrecv.decode(&irsend.capture));
+  EXPECT_EQ(decode_type_t::EUFY, irsend.capture.decode_type);
+  EXPECT_EQ(0x681E00007A, irsend.capture.value);
+}
+
 TEST(TestDecodeEufy, SyntheticSelfDecode) {
   IRsendTest irsend(kGpioUnused);
   IRrecv irrecv(kGpioUnused);
